@@ -25,7 +25,9 @@ def on_connect(mqttc, obj, flags, rc):
 
 
 def on_message(mqttc, obj, msg):
-    print(msg.topic + " " + str(msg.qos) + " " + str(msg.payload))
+    print('#'*30 + '\n' + '#'*30)
+    print("Voici un nouveau message !")
+    print(f"topic: {msg.topic}  qos: {str(msg.qos)}  msg: {str(msg.payload)}")
 
 
 def on_publish(mqttc, obj, mid):
