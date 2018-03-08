@@ -32,6 +32,8 @@ ou
 
 * ```sudo apt install python3-pip```
 
+* ajouté au ```bashrc``` ou au ```zshrc``` cette ligne ```alias python=python3```
+
 
 ### Mise a jour de version
 
@@ -47,4 +49,9 @@ ou
 
 * ```python client_sub.py```
 
-* ```python publish_multiple.py```
+* ```python publish_single.py```
+
+
+##### Voir les ce qu'il y a dans la bdd redis message par messages
+
+* ```python to_client.py```

@@ -16,6 +16,7 @@
 # This shows an example of using the publish.multiple helper function.
 
 import paho.mqtt.publish as publish
+import setting
 
 topic = 'paho/test/topic'
 
@@ -28,5 +29,5 @@ message_2 = input("Tapez le message 2 : ")
 
 msgs = [{'topic': topic, 'payload': message_1}, (topic, message_2, 0, False)]
 # publish.multiple(msgs, hostname="test.mosquitto.org")
-publish.multiple(msgs, hostname="localhost")
+publish.multiple(msgs, hostname=setting.hostname)
 print("publish ok")

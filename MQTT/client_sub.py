@@ -19,6 +19,7 @@
 
 import paho.mqtt.client as mqtt
 import to_server
+import setting
 
 
 def on_connect(mqttc, obj, flags, rc):
@@ -64,7 +65,7 @@ mqttc.on_subscribe = on_subscribe
 # Uncomment to enable debug messages
 # mqttc.on_log = on_log
 # mqttc.connect(host="test.mosquitto.org", port=1883, keepalive=60, bind_address="")
-mqttc.connect(host="localhost", port=1883, keepalive=60, bind_address="")
+mqttc.connect(host=setting.hostname, port=1883, keepalive=60, bind_address="")
 # mqttc.connect("m2m.eclipse.org", 1883, 60)
 # mqttc.subscribe("$SYS/#", 0)
 mqttc.subscribe(topic + "/#", 0)
