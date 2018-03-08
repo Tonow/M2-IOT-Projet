@@ -1,6 +1,26 @@
 # MQTT paho
 
-### Intalation initial
+### Intallation initial
+
+#### Redis
+
+```sudo apt-get install redis-server```
+
+ou
+
+* ```wget http://download.redis.io/releases/redis-4.0.8.tar.gz```
+
+* ```tar xzf redis-4.0.8.tar.gz```
+
+* ```cd redis-4.0.8```
+
+* ```make```
+
+#### Mosquitto
+
+```sudo apt-get install mosquitto```
+
+#### Python 3
 
 [doc python ubuntu](https://doc.ubuntu-fr.org/python)
 
@@ -19,7 +39,11 @@
 
 ### Lancer les scripts
 
-* Ce mettre dans ce dossier
+* ```mosquitto```
+
+* ```/home/redis-4.0.8src/redis-server```
+
+* Ce mettre dans ce dossier ```/MQTT```
 
 * ```python client_sub.py```
 
