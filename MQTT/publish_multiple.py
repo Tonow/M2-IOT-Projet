@@ -17,14 +17,16 @@
 
 import paho.mqtt.publish as publish
 
-default_topic = input("Topic par defaut? y/n ")
+topic = 'paho/test/topic'
+
+default_topic = input(f"Topic par defaut: {topic} y/n ")
 if default_topic.lower() == 'n':
     topic = input("Tapez le chemin du topic : ")
-else:
-    topic = 'paho/test/topic'
 
 message_1 = input("Tapez le message 1 : ")
 message_2 = input("Tapez le message 2 : ")
 
 msgs = [{'topic': topic, 'payload': message_1}, (topic, message_2, 0, False)]
-publish.multiple(msgs, hostname="test.mosquitto.org")
+# publish.multiple(msgs, hostname="test.mosquitto.org")
+publish.multiple(msgs, hostname="localhost")
+print("publish ok")

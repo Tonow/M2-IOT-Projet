@@ -18,6 +18,7 @@
 # This shows a simple example of an MQTT subscriber.
 
 import paho.mqtt.client as mqtt
+import to_server
 
 
 def on_connect(mqttc, obj, flags, rc):
@@ -28,6 +29,8 @@ def on_message(mqttc, obj, msg):
     print('#'*30 + '\n' + '#'*30)
     print("Voici un nouveau message !")
     print(f"topic: {msg.topic}  qos: {str(msg.qos)}  msg: {str(msg.payload)}")
+    to_server.write_topic_json(str(msg.payload), str(msg.topic))
+    to_server.file_json_to_redis()
 
 
 def on_publish(mqttc, obj, mid):
@@ -47,6 +50,7 @@ if default_topic.lower() == 'n':
     topic = input("Tapez le chemin du topic : ")
 else:
     topic = 'paho/test/topic'
+    print(f"le topic : {topic}")
 
 # If you want to use a specific client id, use
 # mqttc = mqtt.Client("client-id")
@@ -59,7 +63,8 @@ mqttc.on_publish = on_publish
 mqttc.on_subscribe = on_subscribe
 # Uncomment to enable debug messages
 # mqttc.on_log = on_log
-mqttc.connect(host="test.mosquitto.org", port=1883, keepalive=60, bind_address="")
+# mqttc.connect(host="test.mosquitto.org", port=1883, keepalive=60, bind_address="")
+mqttc.connect(host="localhost", port=1883, keepalive=60, bind_address="")
 # mqttc.connect("m2m.eclipse.org", 1883, 60)
 # mqttc.subscribe("$SYS/#", 0)
 mqttc.subscribe(topic + "/#", 0)
