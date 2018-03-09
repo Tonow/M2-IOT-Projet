@@ -4,10 +4,6 @@
 
 #### Redis
 
-```sudo apt-get install redis-server```
-
-ou
-
 * ```wget http://download.redis.io/releases/redis-4.0.8.tar.gz```
 
 * ```tar xzf redis-4.0.8.tar.gz```
@@ -32,12 +28,16 @@ ou
 
 * ```sudo apt install python3-pip```
 
-* ajouté au ```bashrc``` ou au ```zshrc``` cette ligne ```alias python=python3```
+* ```sudo -H pip3 install --upgrade pip```
+
+* ajouté au ```bashrc``` ou au ```zshrc``` cette ligne ```alias python="python3.6"```
+
+```alias pip="pip3.6"```
 
 
 ### Mise a jour de version
 
-```pip install -r requirement.txt```
+```sudo pip install -r requirement.txt```
 
 ### Lancer les scripts
 
