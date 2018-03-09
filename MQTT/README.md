@@ -43,7 +43,7 @@
 
 * ```mosquitto```
 
-* ```/home/redis-4.0.8src/redis-server```
+* ```nohup /home/[user]/redis-4.0.8/src/redis-server```
 
 * Ce mettre dans ce dossier ```/MQTT```
 
