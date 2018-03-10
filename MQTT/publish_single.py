@@ -9,4 +9,6 @@ if default_topic.lower() == 'n':
 
 message = input("Tapez le message : ")
 
-publish.single(topic, message, hostname=setting.hostname)
+print(f"hotname = {setting.hostname}")
+
+publish.single(topic, message, hostname=setting.hostname, qos=0, retain=False)
