@@ -8,18 +8,19 @@ import json
 import ast
 import redis
 from datetime import datetime
+import setting
+
+r = redis.StrictRedis()
 
 def read_message_from_server(msg_id):
     '''Lis tout le message contenue dans un id '''
     msg_id = str(msg_id) + '_id'
-    r = redis.StrictRedis()
     dico_global_du_message = ast.literal_eval((r.get(msg_id)).decode("utf-8"))
     for cle, valeur in dico_global_du_message.items():
         print(f" cle : {cle} - valeur: {valeur}")
 
 def read_all_message_from_server():
     '''Lis tout les messages contenue dans le server'''
-    r = redis.StrictRedis()
     nb_cle = len(r.keys())
     for line_id in range(1, nb_cle):
         msg_id = str(line_id) + '_id'
@@ -28,13 +29,48 @@ def read_all_message_from_server():
             if cle == 'message':
                 print(f"{cle} : {valeur}")
 
-msg_id = 4
+def read_message_robinet_from_server():
+    '''Lis tout le message contenue dans un d'un robinet '''
+    list_sortie_eau = setting.list_sortie_eau
 
-all_messages = input(f"Tout les message  y/n ")
-if all_messages.lower() == 'n':
-    default_id = input(f"Id par defaut: {msg_id} y/n ")
-    if default_id.lower() == 'n':
-        msg_id = input("Tapez l'id : ")
-    read_message_from_server(msg_id)
-else:
+    print("\nVoici la liste des sortie d'eau:")
+    for sortie in list_sortie_eau:
+        mot = sortie[0].split("_")
+        text = " ".join(mot)
+        print(f"{text} : {sortie[1]}")
+
+    num_sortie = int(input("\nLa quelle voulez vous voir? : "))
+
+    for sortie in list_sortie_eau:
+        if num_sortie == sortie[1]:
+            mot = sortie[0].split("_")
+            topic = "/".join(mot)
+
+
+    nb_cle = len(r.keys())
+    for line_id in range(1, nb_cle):
+        msg_id = str(line_id) + '_id'
+        dico_global_du_message = ast.literal_eval((r.get(msg_id)).decode("utf-8"))
+        for cle, valeur in dico_global_du_message.items():
+            if cle == 'message':
+                print(f"{cle} : {valeur}")
+
+
+
+# Tout les message    code : T
+# Un seul ligne       code : Id
+# Un seul robinet     code : R
+# Une seul piece      code : P
+text_choix = "Tout les message    code : T\nUn seul ligne       code : Id\nUn seul robinet     code : R\nUne seul piece      code : P\n"
+
+
+choix = input(text_choix)
+if choix.lower() == "T":
     read_all_message_from_server()
+elif choix.lower() == "Id":
+    msg_id = input("Tapez l'id : ")
+    read_message_from_server(msg_id)
+elif choix.lower() == "R":
+    read_message_robinet_from_server()
+elif choix.lower() == "P":
+    pass

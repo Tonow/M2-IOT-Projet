@@ -2,7 +2,7 @@
 
 # hostname = "52.166.162.126"
 
-hostname = "locahost"
+hostname = "localhost"
 
 list_sortie_eau = [
     ("SDB_lavabo_1", 0),
@@ -16,4 +16,6 @@ list_sortie_eau = [
 
 debit_max = 256
 
-debug = False
+debug = True
+
+defaut_base_topic_name = 'Company/home/'
