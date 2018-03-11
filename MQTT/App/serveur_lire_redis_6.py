@@ -12,6 +12,9 @@ from datetime import datetime
 import setting
 
 r = redis.StrictRedis()
+list_retour = []
+taille_prefix_topic = len(setting.defaut_base_topic_name)
+entete_csv = ("Sortie","Date","Debit")
 
 def read_message_from_server(msg_id):
     '''Lis tout le message contenue dans un id '''
@@ -19,6 +22,8 @@ def read_message_from_server(msg_id):
     dico_global_du_message = ast.literal_eval((r.get(msg_id)).decode("utf-8"))
     for cle, valeur in dico_global_du_message.items():
         print(f" cle : {cle} - valeur: {valeur}")
+    if sortie_fichier:
+        print("desole pas de sortie fichier")
 
 def read_all_message_from_server():
     '''Lis tout les messages contenue dans le server'''
@@ -28,12 +33,16 @@ def read_all_message_from_server():
         dico_global_du_message = ast.literal_eval((r.get(msg_id)).decode("utf-8"))
         for cle, valeur in dico_global_du_message.items():
             print(f"{cle} : {valeur}")
+            topic = dico_global_du_message.get('topic')
+            debit = dico_global_du_message.get('debit')
+            date = dico_global_du_message.get('date')
+        list_retour.append((topic[taille_prefix_topic:],date,debit))
+    if sortie_fichier:
+        csv_ouput(list_retour)
 
 def read_message_robinet_from_server():
     '''Lis tout le message contenue dans un d'un robinet '''
     list_sortie_eau = setting.list_sortie_eau
-
-    list_retour = []
 
     print("\nVoici la liste des sortie d'eau:")
     for sortie in list_sortie_eau:
@@ -59,18 +68,12 @@ def read_message_robinet_from_server():
             if (cle == 'topic') and (valeur == topic_souhaiter):
                 debit = dico_global_du_message.get('debit')
                 date = dico_global_du_message.get('date')
-                list_retour.append((date,debit))
+                list_retour.append((valeur[taille_prefix_topic:],date,debit))
                 if setting.debug:
                     print(f"\tdate : {date}\n\tdebit : {debit}")
 
     if sortie_fichier:
-        nom_fichier = "_".join(topic_souhaiter.split("/"))
-        with open(nom_fichier + '.csv', 'w') as f:
-            writer = csv.writer(f)
-            writer.writerow(("Date","Debit"))
-            for item in list_retour:
-                ligne = (item[0], item[1])
-                writer.writerow(ligne)
+        csv_ouput(list_retour, topic_souhaiter)
 
 def read_message_piece_from_server():
     '''Lis tout le message contenue dans un d'une piece '''
@@ -98,8 +101,22 @@ def read_message_piece_from_server():
                 sortie_eau = " ".join(valeur[longueur_char:].split("/"))
                 debit = dico_global_du_message.get('debit')
                 date = dico_global_du_message.get('date')
+                list_retour.append((valeur[taille_prefix_topic:],date,debit))
                 if setting.debug:
                     print(f"sortie : {sortie_eau}\n\tdate : {date}\n\tdebit : {debit}")
+
+    if sortie_fichier:
+        csv_ouput(list_retour, topic_souhaiter)
+
+def csv_ouput(list_retour, topic_souhaiter = "All_data_"+ str(datetime.now().date())):
+    nom_fichier = 'Debit_' + "_".join(topic_souhaiter.split("/"))
+    with open(nom_fichier + '.csv', 'w') as f:
+        writer = csv.writer(f)
+        writer.writerow(entete_csv)
+        for item in list_retour:
+            ligne = (item[0], item[1], item[2])
+            writer.writerow(ligne)
+
 
 # Tout les message    code : T
 # Un seul ligne       code : Id
