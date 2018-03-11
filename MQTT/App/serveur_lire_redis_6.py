@@ -7,6 +7,7 @@ Sujet:		 TODO
 import json
 import ast
 import redis
+import csv
 from datetime import datetime
 import setting
 
@@ -32,6 +33,8 @@ def read_message_robinet_from_server():
     '''Lis tout le message contenue dans un d'un robinet '''
     list_sortie_eau = setting.list_sortie_eau
 
+    list_retour = []
+
     print("\nVoici la liste des sortie d'eau:")
     for sortie in list_sortie_eau:
         mot = sortie[0].split("_")
@@ -56,9 +59,18 @@ def read_message_robinet_from_server():
             if (cle == 'topic') and (valeur == topic_souhaiter):
                 debit = dico_global_du_message.get('debit')
                 date = dico_global_du_message.get('date')
+                list_retour.append((date,debit))
                 if setting.debug:
                     print(f"\tdate : {date}\n\tdebit : {debit}")
 
+    if sortie_fichier:
+        nom_fichier = "_".join(topic_souhaiter.split("/"))
+        with open(nom_fichier + '.csv', 'w') as f:
+            writer = csv.writer(f)
+            writer.writerow(("Date","Debit"))
+            for item in list_retour:
+                ligne = (item[0], item[1])
+                writer.writerow(ligne)
 
 def read_message_piece_from_server():
     '''Lis tout le message contenue dans un d'une piece '''
@@ -93,16 +105,18 @@ def read_message_piece_from_server():
 # Un seul ligne       code : Id
 # Un seul robinet     code : R
 # Une seul piece      code : P
-text_choix = "Tout les message    code : T\nUn seul ligne       code : Id\nUn seul robinet     code : R\nUne seul piece      code : P\n"
+text_choix = "Tout les message    code : T\nUn seul ligne       code : Id\nUn seul robinet     code : R\nUne seul piece      code : P\nSortie fichier      code + f : "
 
-
+sortie_fichier = False
 choix = input(text_choix)
-if choix.lower() == "t":
+if choix.lower()[-1] == "f":
+    sortie_fichier = True
+if choix.lower()[0] == "t":
     read_all_message_from_server()
-elif choix.lower() == "id":
+elif choix.lower()[0:1] == "id":
     msg_id = input("Tapez l'id : ")
     read_message_from_server(msg_id)
-elif choix.lower() == "r":
+elif choix.lower()[0] == "r":
     read_message_robinet_from_server()
-elif choix.lower() == "p":
+elif choix.lower()[0] == "p":
     read_message_piece_from_server()
