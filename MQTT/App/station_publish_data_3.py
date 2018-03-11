@@ -3,7 +3,6 @@ from datetime import datetime
 import setting
 
 
-
 def cree_data(id_bague, debit):
     '''Avec le topic et message et le temps'''
     time = datetime.now()

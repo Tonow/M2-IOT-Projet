@@ -44,7 +44,7 @@ def read_message_robinet_from_server():
     for sortie in list_sortie_eau:
         if num_sortie == sortie[1]:
             mot = sortie[0].split("_")
-            topic = "/".join(mot)
+            topic_souhaiter = "/".join(mot)
 
 
     nb_cle = len(r.keys())
@@ -52,8 +52,9 @@ def read_message_robinet_from_server():
         msg_id = str(line_id) + '_id'
         dico_global_du_message = ast.literal_eval((r.get(msg_id)).decode("utf-8"))
         for cle, valeur in dico_global_du_message.items():
-            if cle == 'message':
-                print(f"{cle} : {valeur}")
+            if (cle == 'topic') and (valeur == topic_souhaiter):
+                if cle == 'message':
+                    dico_global_du_message.get('message')
 
 
 
@@ -65,12 +66,12 @@ text_choix = "Tout les message    code : T\nUn seul ligne       code : Id\nUn se
 
 
 choix = input(text_choix)
-if choix.lower() == "T":
+if choix.lower() == "t":
     read_all_message_from_server()
-elif choix.lower() == "Id":
+elif choix.lower() == "id":
     msg_id = input("Tapez l'id : ")
     read_message_from_server(msg_id)
-elif choix.lower() == "R":
+elif choix.lower() == "r":
     read_message_robinet_from_server()
-elif choix.lower() == "P":
+elif choix.lower() == "p":
     pass

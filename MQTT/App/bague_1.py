@@ -1,8 +1,5 @@
-import paho.mqtt.publish as publish
 import setting
-import textwrap
-import entre_station as to_station
-import setting
+import station_entre_2 as to_station
 
 print("#"*20)
 print(f"Debug = {setting.debug}")
@@ -24,6 +21,7 @@ def debit_test_valeur():
             print('Entrer un entier')
             debit = -1
     return debit_str
+
 
 def arriver_user():
     list_sortie_eau = setting.list_sortie_eau
@@ -47,9 +45,10 @@ def arriver_user():
             while num_output_longueur != 4:
                 num_output = "0" + num_output
                 num_output_longueur = len(num_output)
-            robinet_ouvert(num_output, text, debit)
+            robinet_ouvert(num_output, debit)
 
-def robinet_ouvert(num_output, text, debit):
+
+def robinet_ouvert(num_output, debit):
     modif = "ouvert"
     to_station.bague_to_station(str(num_output) + debit)
 
@@ -63,5 +62,6 @@ def robinet_ouvert(num_output, text, debit):
         if modif.lower() == 'f':
             print("\nRobinet fermer")
             to_station.bague_to_station(str(num_output) + "0000")
+
 
 arriver_user()

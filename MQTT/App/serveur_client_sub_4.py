@@ -18,7 +18,7 @@
 # This shows a simple example of an MQTT subscriber.
 
 import paho.mqtt.client as mqtt
-import to_server
+import serveur_msg_to_redis_5 as serveur_msg_to_redis
 import setting
 
 
@@ -30,8 +30,8 @@ def on_message(mqttc, obj, msg):
     print('#'*30 + '\n' + '#'*30)
     print("Voici un nouveau message !")
     print(f"topic: {msg.topic}  qos: {str(msg.qos)}  msg: {str(msg.payload)}")
-    to_server.write_topic_json(str(msg.payload), str(msg.topic))
-    to_server.file_json_to_redis()
+    serveur_msg_to_redis.write_topic_json(str(msg.payload), str(msg.topic))
+    serveur_msg_to_redis.file_json_to_redis()
 
 
 def on_publish(mqttc, obj, mid):
@@ -44,7 +44,6 @@ def on_subscribe(mqttc, obj, mid, granted_qos):
 
 def on_log(mqttc, obj, level, string):
     print(string)
-
 
 
 topic = setting.defaut_base_topic_name
@@ -60,7 +59,6 @@ mqttc.on_publish = on_publish
 mqttc.on_subscribe = on_subscribe
 # Uncomment to enable debug messages
 # mqttc.on_log = on_log
-# mqttc.connect(host="test.mosquitto.org", port=1883, keepalive=60, bind_address="")
 mqttc.connect(host=setting.hostname, port=1883, keepalive=60, bind_address="")
 # mqttc.connect("m2m.eclipse.org", 1883, 60)
 # mqttc.subscribe("$SYS/#", 0)

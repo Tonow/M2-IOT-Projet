@@ -45,13 +45,13 @@
 
 * ```/home/[user]/redis-4.0.8/src/redis-server &```
 
-* Ce mettre dans ce dossier ```/MQTT```
+* Ce mettre dans ce dossier ```/MQTT/App```
 
-* ```python client_sub.py```
+* ```python server_client_sub_4.py```
 
-* ```python publish_single.py```
+* ```python bague_1.py```
 
 
 ##### Voir les ce qu'il y a dans la bdd redis message par messages
 
-* ```python to_client.py```
+* ```python server_lire_redis_6.py```

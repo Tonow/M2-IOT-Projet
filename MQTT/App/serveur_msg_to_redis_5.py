@@ -48,7 +48,6 @@ def push_to_redis(data):
     print(f"les cle sont : {cle}")
 
 
-
 def file_json_to_redis():
     """ En dur recupere le fichier json et le met dans la data base redis """
     data = read_json_file('sortie.json')
