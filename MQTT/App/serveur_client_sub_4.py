@@ -30,8 +30,9 @@ def on_message(mqttc, obj, msg):
     print('#'*30 + '\n' + '#'*30)
     print("Voici un nouveau message !")
     print(f"topic: {msg.topic}  qos: {str(msg.qos)}  msg: {str(msg.payload)}")
-    serveur_msg_to_redis.write_topic_json(str(msg.payload), str(msg.topic))
-    serveur_msg_to_redis.file_json_to_redis()
+    serveur_msg_to_redis.mqtt_to_redis(str(msg.topic), msg.payload)
+    # serveur_msg_to_redis.write_topic_json(str(msg.payload), str(msg.topic))
+    # serveur_msg_to_redis.file_json_to_redis()
 
 
 def on_publish(mqttc, obj, mid):

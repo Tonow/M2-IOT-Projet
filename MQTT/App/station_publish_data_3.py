@@ -6,13 +6,21 @@ import setting
 def cree_data(id_bague, debit):
     '''Avec le topic et message et le temps'''
     time = datetime.now()
+    time_now = (
+        str(time.year) + '/' +
+        str(time.month) + '/' +
+        str(time.day) + '-' +
+        str(time.hour) + ":" +
+        str(time.minute) + ":" +
+        str(time.second)
+    )
     text = ''
     for sortie in setting.list_sortie_eau:
         if int(id_bague) == sortie[1]:
             mot = sortie[0].split("_")
             text = "/".join(mot)
     topic = setting.defaut_base_topic_name + text
-    data = {'topic': topic, 'debit': debit, 'date': time}
+    data = {'debit': debit, 'date': time_now}
     if setting.debug:
         print("\n")
         for cle, valeur in data.items():
