@@ -47,11 +47,19 @@
 
 * Ce mettre dans ce dossier ```/MQTT/App```
 
-* ```python server_client_sub_4.py```
+* ```python serveur_client_sub_4.py```
 
 * ```python bague_1.py```
 
 
-##### Voir les ce qu'il y a dans la bdd redis message par messages
+##### Voir les ce qu'il y a dans la bdd redis
 
-* ```python server_lire_redis_6.py```
+* ```python serveur_lire_redis_6.py```
+
+##### Lire les csv et calculer les volumes
+
+* ```python serveur_lire_csv_7.py```
+
+##### Afficher des graphes
+
+* ```python serveur_graph_8.py```
