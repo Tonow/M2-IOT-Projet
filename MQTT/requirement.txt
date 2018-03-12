@@ -3,3 +3,4 @@ redis
 matplotlib
 numpy
 pandas
+email

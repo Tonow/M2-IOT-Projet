@@ -38,7 +38,7 @@ def plot_volume_temps(ficher_a_traiter, choix_x, choix_y):
     # fname = cbook.get_sample_data(ficher_a_traiter, asfileobj=False)
 
     plt.plotfile(ficher_a_traiter, cols=(choix_x, choix_y))
-    plt.savefig(ficher_a_traiter[:-3] + ".png", dpi=72)
+    plt.savefig(ficher_a_traiter[:-3] + "png", dpi=72)
     plt.show()
 
 ficher_a_traiter = propose_fichier_csv()
