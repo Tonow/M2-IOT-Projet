@@ -1,2 +1,5 @@
 paho-mqtt
 redis
+matplotlib
+numpy
+pandas

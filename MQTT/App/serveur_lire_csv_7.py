@@ -5,7 +5,7 @@ import setting
 from datetime import datetime
 
 cwd = os.getcwd()
-entete_csv = ("Sortie","Date","Delta temps","Volume")
+entete_csv = ("Sortie", "Date", "Delta temps", "Volume")
 list_retour = []
 date_precedante = False
 debit_precedant = 0
@@ -57,7 +57,7 @@ def calcule_volumes_consomation_eau(ficher_a_traiter, date_precedante = False, d
     csv_ouput(list_retour, ficher_a_traiter)
 
 def csv_ouput(list_retour, nom_fichier):
-    with open('Volume' + nom_fichier[5:] + '.csv', 'w') as f:
+    with open('Volume' + nom_fichier[5:], 'w') as f:
         writer = csv.writer(f)
         writer.writerow(entete_csv)
         for item in list_retour:
