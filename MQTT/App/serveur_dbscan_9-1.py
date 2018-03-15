@@ -24,16 +24,20 @@ from sklearn.preprocessing import StandardScaler
 
 import setting
 
-
+cluster_anormal = False
 
 
 
 def propose_fichier_csv():
-    for file in os.listdir('.'):
-        if file.endswith(".csv") and file.startswith("V"):
-            print(file)
+    if setting.debug:
+        for file in os.listdir('.'):
+            if file.endswith(".csv") and file.startswith("V"):
+                print(file)
 
-    ficher_a_traiter = input("\nNom du fichier a traiter : ")
+    if setting.debug:
+        ficher_a_traiter = input("\nNom du fichier a traiter : ")
+    else:
+        ficher_a_traiter = "Debit_All_data_2018-03-16.csv"
     df = pd.read_csv(ficher_a_traiter)
     df.columns = ['Sortie',
               'Date',
@@ -46,10 +50,12 @@ ficher_a_traiter = propose_fichier_csv()
 
 
 dataframe = pd.read_csv(ficher_a_traiter)
-i = 0
-for col in dataframe.columns:
-    print(f'colonne {i}: {col}')
-    i = i+1
+
+if setting.debug:
+    i = 0
+    for col in dataframe.columns:
+        print(f'colonne {i}: {col}')
+        i = i+1
 
 
 df = pd.read_csv(ficher_a_traiter)
@@ -77,19 +83,20 @@ X = col_utile
 # #############################################################################
 # Compute DBSCAN
 
-eps_max_value = 500
+eps_max_value = 300
 eps_min_value = 1
 eps_step = 2
 min_samples_max_value = 20
 min_samples_min_value = 1
 
-changement_val_defaut = input(f'\n\n Valeur par defaut\n \n eps_max_value: {eps_max_value} \n eps_min_value: {eps_min_value} \n eps_step: {eps_step} \n min_samples_max_value: {min_samples_max_value} \n min_samples_min_value: {min_samples_min_value} \n Voulez vous changer ces valeur? y/n : ')
-if changement_val_defaut.lower() == 'y':
-    eps_max_value = float(input('votre eps_max_value ? : '))
-    eps_min_value = float(input('votre eps_min_value  ? : '))
-    eps_step = float(input('votre eps_step ? : '))
-    min_samples_max_value = int(input('votre min_samples_max_value ? : '))
-    min_samples_min_value = int(input('votre min_samples_min_value ? : '))
+if setting.debug:
+    changement_val_defaut = input(f'\n\n Valeur par defaut\n \n eps_max_value: {eps_max_value} \n eps_min_value: {eps_min_value} \n eps_step: {eps_step} \n min_samples_max_value: {min_samples_max_value} \n min_samples_min_value: {min_samples_min_value} \n Voulez vous changer ces valeur? y/n : ')
+    if changement_val_defaut.lower() == 'y':
+        eps_max_value = float(input('votre eps_max_value ? : '))
+        eps_min_value = float(input('votre eps_min_value  ? : '))
+        eps_step = float(input('votre eps_step ? : '))
+        min_samples_max_value = int(input('votre min_samples_max_value ? : '))
+        min_samples_min_value = int(input('votre min_samples_min_value ? : '))
 
 
 def db_scan(X, labels_true):
@@ -117,12 +124,13 @@ def db_scan(X, labels_true):
                 best_adjusted_index = adjusted_rand_index > best_adjusted_rand_index
                 best_v_measure = v_measure_score > best_v_measure_score
                 if best_adjusted_index and best_v_measure:
-                    print("#"*30)
-                    print(f"esp: {round(eps, 3)}  |  min point {min_samples}")
-                    # print("Adjusted Rand Index: %0.3f"
-                    #       % metrics.adjusted_rand_score(labels_true, labels))
-                    print(f"Adjusted Rand Index: {round(adjusted_rand_index, 3)}")
-                    print(f"V-measure: {round(v_measure_score, 3)}")
+                    if setting.debug:
+                        print("#"*30)
+                        print(f"esp: {round(eps, 3)}  |  min point {min_samples}")
+                        # print("Adjusted Rand Index: %0.3f"
+                        #       % metrics.adjusted_rand_score(labels_true, labels))
+                        print(f"Adjusted Rand Index: {round(adjusted_rand_index, 3)}")
+                        print(f"V-measure: {round(v_measure_score, 3)}")
                     best_labels = labels
                     best_core_samples_mask = core_samples_mask
                     best_n_clusters_ = n_clusters_
@@ -137,17 +145,18 @@ def db_scan(X, labels_true):
                     adjusted_mutual_information = metrics.adjusted_mutual_info_score(labels_true, labels)
                     silhouette_coefficient = metrics.silhouette_score(X, labels)
 
-    print("#"*50 +"\n")
-    print("#"*15 + "  Rapport:  " + "#"*15 + "\n")
-    print(f"Nombre de clusters estimer: {best_n_clusters_}")
-    print(f"esp: {round(best_eps, 3)}  |  min point {best_min_samples} \n")
-    print(f"Homogeneity: {round(homogeneity, 3)}")
-    print(f"Completeness: {round(completeness, 3)}")
-    print(f"Adjusted Mutual Information: {round(adjusted_mutual_information, 3)}")
-    print(f"Silhouette Coefficient: {round(silhouette_coefficient, 3)}")
-    print(f"Adjusted Rand Index: {round(best_adjusted_rand_index, 3)}")
-    print(f"V-measure: {round(best_v_measure_score, 3)}")
-    print("#"*50 +"\n")
+    if setting.debug:
+        print("#"*50 +"\n")
+        print("#"*15 + "  Rapport:  " + "#"*15 + "\n")
+        print(f"Nombre de clusters estimer: {best_n_clusters_}")
+        print(f"esp: {round(best_eps, 3)}  |  min point {best_min_samples} \n")
+        print(f"Homogeneity: {round(homogeneity, 3)}")
+        print(f"Completeness: {round(completeness, 3)}")
+        print(f"Adjusted Mutual Information: {round(adjusted_mutual_information, 3)}")
+        print(f"Silhouette Coefficient: {round(silhouette_coefficient, 3)}")
+        print(f"Adjusted Rand Index: {round(best_adjusted_rand_index, 3)}")
+        print(f"V-measure: {round(best_v_measure_score, 3)}")
+        print("#"*50 +"\n")
     return (best_labels, best_core_samples_mask, best_n_clusters_)
 
 (labels, core_samples_mask, n_clusters_) = db_scan(X, labels_true)
@@ -162,17 +171,31 @@ unique_labels = set(labels)
 unique, counts = np.unique(labels, return_counts=True)
 nb_val_in_cluster = dict(zip(unique, counts))
 
+nb_cluster_anormaux = 0
 for cluster, nombre_element in nb_val_in_cluster.items():
     if cluster == -1:
         cluster = 'noise'
-    if nombre_element
-    print(f" Le cluster {cluster} a {nombre_element} element")
+    elif nombre_element == 1:
+        cluster_anormal = True
+        nb_cluster_anormaux = nb_cluster_anormaux + 1
+        if setting.debug:
+            msg_ann = f" il y a {nb_cluster_anormaux} cluster(s) qui semble anormal(aux)"
+    else:
+        if setting.debug:
+            msg = f" Le cluster {cluster} a {nombre_element} element"
+
+if setting.debug:
+    if cluster_anormal:
+            print(msg_ann)
+    else:
+        print(msg)
 
 colors = [plt.cm.Spectral(each)
           for each in np.linspace(0, 1, len(unique_labels))]
 
 fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d')
+# ax = fig.add_subplot(111, projection='3d')
+ax = fig.add_subplot(111)
 for k, col in zip(unique_labels, colors):
     if k == -1:
         # Noir pour noise.

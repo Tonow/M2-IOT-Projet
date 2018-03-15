@@ -16,6 +16,7 @@ list_sortie_eau = [
 
 debit_max = 256
 
-debug = True
+# debug = True
+debug = False
 
 defaut_base_topic_name = 'Company/home/'

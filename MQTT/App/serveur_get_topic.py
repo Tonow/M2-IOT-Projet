@@ -2,6 +2,7 @@ import json
 import redis
 import ast
 
+import setting
 import serveur_publish_data
 
 
@@ -14,18 +15,25 @@ def write_topic_json(payload, topic):
 dico = dict()
 
 r = redis.StrictRedis(db = 1)
-dico_global_du_message = ast.literal_eval((r.get(1)).decode("utf-8"))
-for cle, valeur in dico_global_du_message.items():
-    print(f"cle {cle} : valeur {valeur}")
 
-    for clev, valeurv in valeur.items():
-        if clev != "submit":
-            print(f"clev {clev} : valeurv {valeurv}")
-            dico.update({clev : valeurv})
+nb_cle = len(r.keys())
+for line_id in range(1, nb_cle):
+    msg_id = "rings" + str(line_id)
+    dico_global_du_message = ast.literal_eval((r.get(msg_id)).decode("utf-8"))
+    for cle, valeur in dico_global_du_message.items():
+        if setting.debug:
+            print(f"cle {cle} : valeur {valeur}")
+
+        for clev, valeurv in valeur.items():
+            if clev != "submit":
+                if setting.debug:
+                    print(f"clev {clev} : valeurv {valeurv}")
+                dico.update({clev : valeurv})
 
 data = {}
 id_ring = 1
-print(dico)
+if setting.debug:
+    print(dico)
 
 for iteration in range(int(len(dico)/4)):
     i = iteration + 1
@@ -43,8 +51,9 @@ for iteration in range(int(len(dico)/4)):
             dico_topic = {ringId : {'topic': topic}}
         data.update(dico_topic)
 
-print("data")
-print(data)
+if setting.debug:
+    print("data")
+    print(data)
 
 data_json = json.dumps(data, separators=(',', ':'))
 
