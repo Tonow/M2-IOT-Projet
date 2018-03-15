@@ -11,6 +11,7 @@ import csv
 from datetime import datetime
 import setting
 
+# dbname = input("choix de la db : ")
 r = redis.StrictRedis()
 list_retour = []
 taille_prefix_topic = len(setting.defaut_base_topic_name)

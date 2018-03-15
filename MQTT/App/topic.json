@@ -1,0 +1,13 @@
+{
+  "ringz": {
+    "ringId1": "1",
+    "canalisation1": "sink",
+    "floor1": "etg1",
+    "room1": "r1",
+    "ringId2": "2",
+    "canalisation2": "shower",
+    "floor2": "etg2",
+    "room2": "r2",
+    "submit": "Send"
+  }
+}

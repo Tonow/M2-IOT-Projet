@@ -1,7 +1,7 @@
 import os
 import csv
+from csv import reader
 import matplotlib.pyplot as plt
-import numpy as np
 import pandas as pd
 
 import matplotlib.cbook as cbook
@@ -35,10 +35,23 @@ def choix_colonne(ficher_a_traiter):
 
 
 def plot_volume_temps(ficher_a_traiter, choix_x, choix_y):
+    with open(ficher_a_traiter, 'r') as f:
+        data = list(reader(f))
     # fname = cbook.get_sample_data(ficher_a_traiter, asfileobj=False)
 
-    plt.plotfile(ficher_a_traiter, cols=(choix_x, choix_y))
-    plt.savefig(ficher_a_traiter[:-3] + "png", dpi=72)
+    # plt.plotfile(ficher_a_traiter, cols=(choix_x, choix_y))
+    # plt.plotfile(ficher_a_traiter, cols=(choix_x, choix_y))
+    # plt.savefig(ficher_a_traiter[:-3] + "png", dpi=72)
+    data1 = []
+    data2 = []
+    for line in data:
+        try:
+            data1.append(float(line[choix_x]))
+            data2.append(float(line[choix_y]))
+        except:
+            pass
+    fig, ax = plt.subplots()
+    ax.scatter(data1, data2, alpha=0.5)
     plt.show()
 
 ficher_a_traiter = propose_fichier_csv()
