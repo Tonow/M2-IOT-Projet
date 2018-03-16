@@ -16,9 +16,13 @@ list_sortie_eau = [
 
 debit_max = 256
 
-# debug = True
-debug = False
+debug = True
+# debug = False # TODO Attention bien changer tout les fichier et tout re-tester
 
 defaut_base_topic_name = 'Company/home/'
 
-dpi = 300 
+dpi = 300
+
+nom_entreprise = 'WatOur'
+
+client = "thomas.nowicki@hotmail.fr"

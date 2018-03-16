@@ -23,6 +23,7 @@ from sklearn.datasets.samples_generator import make_blobs
 from sklearn.preprocessing import StandardScaler
 
 import setting
+import serveur_envoi_mail_10
 
 cluster_anormal = False
 
@@ -178,17 +179,19 @@ for cluster, nombre_element in nb_val_in_cluster.items():
     elif nombre_element == 1:
         cluster_anormal = True
         nb_cluster_anormaux = nb_cluster_anormaux + 1
-        if setting.debug:
-            msg_ann = f" il y a {nb_cluster_anormaux} cluster(s) qui semble anormal(aux)"
+        msg_ann = f" il y a {nb_cluster_anormaux} cluster(s) qui semble anormal(aux)"
     else:
         if setting.debug:
-            msg = f" Le cluster {cluster} a {nombre_element} element"
+            print(f" Le cluster {cluster} a {nombre_element} element")
 
 if setting.debug:
     if cluster_anormal:
             print(msg_ann)
-    else:
-        print(msg)
+
+if cluster_anormal:
+    message_mail = "Bonjour,\nIl pourrait sembler qu'il y ai une consomation anormal"
+else:
+    message_mail = "Bonjour,\nTout semble normal dans votre consomation"
 
 colors = [plt.cm.Spectral(each)
           for each in np.linspace(0, 1, len(unique_labels))]
@@ -210,22 +213,10 @@ for k, col in zip(unique_labels, colors):
     xy = X[class_member_mask & ~core_samples_mask]
     ax.scatter(xy[:, 0], xy[:, 1],c=tuple(col), marker='+', s=180)
 
-# + area
-    # xyz = X[class_member_mask & core_samples_mask]
-    # ax.scatter(xyz[:, 1], xyz[:, 2], xyz[:, 3], c=tuple(col), marker='o')
-    #
-    # xyz = X[class_member_mask & ~core_samples_mask]
-    # ax.scatter(xyz[:, 1], xyz[:, 2], xyz[:, 3], c=tuple(col), marker='+', s=40)
 
+plt.title('Les differante classe trouver sont au nombre de : %d' % n_clusters_)
+plt.savefig("volume_classification_db-scan_cluster.png", dpi = setting.dpi)
+if setting.debug:
+    plt.show()
 
-# # trois colonne
-    # xyz = X[class_member_mask & core_samples_mask]
-    # ax.scatter(xyz[:, 1], xyz[:, 2], xyz[:, 0], c=tuple(col), marker='o')
-    #
-    # xyz = X[class_member_mask & ~core_samples_mask]
-    # # lst = list(tuple(col))
-    # # lst[0] = 1
-    # ax.scatter(xyz[:, 1], xyz[:, 2], xyz[:, 0], c=tuple(col), marker='+', s=180)
-
-plt.title('Estimated number of clusters: %d' % n_clusters_)
-plt.show()
+serveur_envoi_mail_10.envoi_mail(message_mail)

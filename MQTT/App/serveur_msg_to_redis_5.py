@@ -4,10 +4,8 @@ Ecrit par :	 Tonow
 Le :		 Date
 Sujet:		 TODO
 '''
-import json
 import redis
 import ast
-from datetime import datetime
 
 
 def mqtt_to_data(topic, payload):

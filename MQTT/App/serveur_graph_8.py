@@ -61,11 +61,7 @@ def plot_volume_temps(ficher_a_traiter, choix_x, choix_y):
 def plot_volume_date(ficher_a_traiter, date, volume):
     with open(ficher_a_traiter, 'r') as f:
         data = list(reader(f))
-    # fname = cbook.get_sample_data(ficher_a_traiter, asfileobj=False)
 
-    # plt.plotfile(ficher_a_traiter, cols=(choix_x, choix_y))
-    # plt.plotfile(ficher_a_traiter, cols=(choix_x, choix_y))
-    # plt.savefig(ficher_a_traiter[:-3] + "png", dpi=72)
     data_date = []
     data_volume = []
     for line in data:
