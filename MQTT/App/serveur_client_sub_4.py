@@ -27,9 +27,10 @@ def on_connect(mqttc, obj, flags, rc):
 
 
 def on_message(mqttc, obj, msg):
-    print('#'*30 + '\n' + '#'*30)
-    print("Voici un nouveau message !")
-    print(f"topic: {msg.topic}  qos: {str(msg.qos)}  msg: {str(msg.payload)}")
+    if setting.debug:
+        print('#'*30 + '\n' + '#'*30)
+        print("Voici un nouveau message !")
+        print(f"topic: {msg.topic}  qos: {str(msg.qos)}  msg: {str(msg.payload)}")
     serveur_msg_to_redis.mqtt_to_redis(str(msg.topic), msg.payload)
 
 
@@ -61,9 +62,9 @@ mqttc.on_subscribe = on_subscribe
 mqttc.connect(host=setting.hostname, port=1883, keepalive=60, bind_address="")
 # mqttc.connect("m2m.eclipse.org", 1883, 60)
 # mqttc.subscribe("$SYS/#", 0)
-mqttc.subscribe(topic + "#", 0)
+mqttc.subscribe(topic + "/#", 0)
 if setting.debug:
-    print(f"hotname = {setting.hostname}")
+    print(f"hostname = {setting.hostname}")
     print(f"topic : {topic}#")
 
 mqttc.loop_forever()

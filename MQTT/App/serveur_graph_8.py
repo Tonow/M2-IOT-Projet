@@ -162,10 +162,11 @@ else:
     choix_volume = 3
 
 
-plot_volume_temps(ficher_a_traiter, choix_delta_temps, choix_volume)
+def plot_shema():
+    plot_volume_temps(ficher_a_traiter, choix_delta_temps, choix_volume)
 
-plot_volume_date(ficher_a_traiter, choix_date, choix_volume)
+    plot_volume_date(ficher_a_traiter, choix_date, choix_volume)
 
-plot_volume_ring(ficher_a_traiter, choix_sortie, choix_volume)
+    plot_volume_ring(ficher_a_traiter, choix_sortie, choix_volume)
 
-plot_volume_temps_ring(ficher_a_traiter, choix_sortie, choix_volume, choix_delta_temps)
+    plot_volume_temps_ring(ficher_a_traiter, choix_sortie, choix_volume, choix_delta_temps)

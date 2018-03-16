@@ -1,7 +1,7 @@
 import setting
 import station_publish_data_3 as station_publish_data
 
-list_sortie_eau = setting.list_sortie_eau
+list_sortie_eau = setting.list_sortie_eau()
 
 
 def bague_to_station(flux_bague):

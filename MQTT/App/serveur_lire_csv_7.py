@@ -30,7 +30,7 @@ def calcule_volumes_consomation_eau(ficher_a_traiter, date_precedante = False, d
 
             # Evite la premiere ligne ou sont ecrite les nom des colonnes
             if len(date) > 4:
-                date_format = datetime.strptime(date, "%Y/%m/%d-%H:%M:%S")
+                date_format = datetime.strptime(date, "%Y-%m-%dT%H:%M:%S")
 
                 if debit == 0 or not date_precedante:
                     date_precedante = date_format
@@ -64,5 +64,12 @@ def csv_ouput(list_retour, nom_fichier):
             ligne = (item[0], item[1], item[2], item[3])
             writer.writerow(ligne)
 
-ficher_a_traiter = propose_fichier_csv()
-calcule_volumes_consomation_eau(ficher_a_traiter)
+def lire_csv_data():
+    if setting.debug:
+        ficher_a_traiter = propose_fichier_csv()
+        calcule_volumes_consomation_eau(ficher_a_traiter)
+    else:
+        ficher_a_traiter = setting.debit_fichier_data_general
+        calcule_volumes_consomation_eau(ficher_a_traiter)
+
+    # ficher_a_traiter = "Volume_All_data_2018-03-11.csv"

@@ -15,7 +15,7 @@ def cree_data(id_bague, debit):
         str(time.second)
     )
     text = ''
-    for sortie in setting.list_sortie_eau:
+    for sortie in setting.list_sortie_eau():
         if int(id_bague) == sortie[1]:
             mot = sortie[0].split("_")
             text = "/".join(mot)

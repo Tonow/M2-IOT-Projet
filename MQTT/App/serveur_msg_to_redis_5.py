@@ -7,11 +7,12 @@ Sujet:		 TODO
 import redis
 import ast
 
-
 def mqtt_to_data(topic, payload):
     # transforme en dictionnaire
-    data = ast.literal_eval(payload.decode("utf-8"))
-    data['topic'] = topic
+    data = payload.decode("utf-8")
+    data = data[0] + "topic : " + topic + data[1:]
+    # data = ast.literal_eval()
+    # data['topic'] = topic
     return data
 
 

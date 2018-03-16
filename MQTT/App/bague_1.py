@@ -24,7 +24,7 @@ def debit_test_valeur():
 
 
 def arriver_user():
-    list_sortie_eau = setting.list_sortie_eau
+    list_sortie_eau = setting.list_sortie_eau()
 
     print("\nVoici la liste des sortie d'eau:")
     for sortie in list_sortie_eau:
