@@ -20,3 +20,5 @@ debit_max = 256
 debug = False
 
 defaut_base_topic_name = 'Company/home/'
+
+dpi = 300 

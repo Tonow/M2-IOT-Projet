@@ -40,11 +40,7 @@ def choix_colonne(ficher_a_traiter):
 def plot_volume_temps(ficher_a_traiter, choix_x, choix_y):
     with open(ficher_a_traiter, 'r') as f:
         data = list(reader(f))
-    # fname = cbook.get_sample_data(ficher_a_traiter, asfileobj=False)
 
-    # plt.plotfile(ficher_a_traiter, cols=(choix_x, choix_y))
-    # plt.plotfile(ficher_a_traiter, cols=(choix_x, choix_y))
-    # plt.savefig(ficher_a_traiter[:-3] + "png", dpi=72)
     data1 = []
     data2 = []
     for line in data:
@@ -58,9 +54,11 @@ def plot_volume_temps(ficher_a_traiter, choix_x, choix_y):
     ax.set_ylabel('Volume', fontsize=15)
     ax.set_xlabel(r'$\Delta_{temps}$', fontsize=15)
     ax.set_title('Volume en fonction du delta temps')
-    plt.show()
+    plt.savefig("volume_temps.png", dpi = setting.dpi)
+    if setting.debug:
+        plt.show()
 
-def plot_volume_date(ficher_a_traiter, choix_x, choix_y):
+def plot_volume_date(ficher_a_traiter, date, volume):
     with open(ficher_a_traiter, 'r') as f:
         data = list(reader(f))
     # fname = cbook.get_sample_data(ficher_a_traiter, asfileobj=False)
@@ -68,21 +66,23 @@ def plot_volume_date(ficher_a_traiter, choix_x, choix_y):
     # plt.plotfile(ficher_a_traiter, cols=(choix_x, choix_y))
     # plt.plotfile(ficher_a_traiter, cols=(choix_x, choix_y))
     # plt.savefig(ficher_a_traiter[:-3] + "png", dpi=72)
-    data1 = []
-    data2 = []
+    data_date = []
+    data_volume = []
     for line in data:
         try:
-            data1.append(line[choix_x])
-            data2.append(float(line[choix_y]))
+            data_date.append(line[date])
+            data_volume.append(float(line[volume]))
         except:
             pass
     fig, ax = plt.subplots()
-    ax.scatter(data1[1:], data2, alpha=0.5)
+    ax.scatter(data_date[1:], data_volume, alpha=0.5)
     ax.set_ylabel('Volume', fontsize=15)
     fig.autofmt_xdate()
     ax.set_xlabel(r'Date', fontsize=15)
     ax.set_title('Volume en fonction des jours')
-    plt.show()
+    plt.savefig("volume_date.png", dpi = setting.dpi)
+    if setting.debug:
+        plt.show()
 
 
 def plot_volume_ring(ficher_a_traiter, choix_x, choix_y):
@@ -92,7 +92,7 @@ def plot_volume_ring(ficher_a_traiter, choix_x, choix_y):
 
     # plt.plotfile(ficher_a_traiter, cols=(choix_x, choix_y))
     # plt.plotfile(ficher_a_traiter, cols=(choix_x, choix_y))
-    # plt.savefig(ficher_a_traiter[:-3] + "png", dpi=72)
+    # plt.savefig(ficher_a_traiter[:-3] + "png", dpi = setting.dpi)
     data1 = []
     data2 = []
     for line in data:
@@ -112,7 +112,9 @@ def plot_volume_ring(ficher_a_traiter, choix_x, choix_y):
     fig.autofmt_xdate()
     ax.set_xlabel(r'Sortie', fontsize=15)
     ax.set_title('Volume en fonction de la sortie')
-    plt.show()
+    plt.savefig("volume_ring.png", dpi = setting.dpi)
+    if setting.debug:
+        plt.show()
 
 
 def plot_volume_temps_ring(ficher_a_traiter, choix_sortie, choix_volume, choix_delta_temps):
@@ -145,7 +147,9 @@ def plot_volume_temps_ring(ficher_a_traiter, choix_sortie, choix_volume, choix_d
     ax.set_ylabel(r'$\Delta_{temps}$', fontsize=15)
     ax.set_zlabel('Volume', fontsize=15)
     plt.title('Volume en fonction sortie et du Delta temps')
-    plt.show()
+    plt.savefig("volume_temps_ring.png", dpi = setting.dpi)
+    if setting.debug:
+        plt.show()
 
 
 
