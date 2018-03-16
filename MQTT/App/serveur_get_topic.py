@@ -19,16 +19,19 @@ r = redis.StrictRedis(db = 1)
 nb_cle = len(r.keys())
 for line_id in range(1, nb_cle):
     msg_id = "rings" + str(line_id)
-    dico_global_du_message = ast.literal_eval((r.get(msg_id)).decode("utf-8"))
-    for cle, valeur in dico_global_du_message.items():
-        if setting.debug:
-            print(f"cle {cle} : valeur {valeur}")
+    try:
+        dico_global_du_message = ast.literal_eval((r.get(msg_id)).decode("utf-8"))
+        for cle, valeur in dico_global_du_message.items():
+            if setting.debug:
+                print(f"cle {cle} : valeur {valeur}")
 
-        for clev, valeurv in valeur.items():
-            if clev != "submit":
-                if setting.debug:
-                    print(f"clev {clev} : valeurv {valeurv}")
-                dico.update({clev : valeurv})
+                for clev, valeurv in valeur.items():
+                    if clev != "submit":
+                        if setting.debug:
+                            print(f"clev {clev} : valeurv {valeurv}")
+                            dico.update({clev : valeurv})
+    except:
+        pass
 
 data = {}
 id_ring = 1
@@ -56,6 +59,8 @@ if setting.debug:
     print(data)
 
 data_json = json.dumps(data, separators=(',', ':'))
+
+r.flushall()
 
 serveur_publish_data.publish_data('new/topics', data_json)
 with open("sortie.json", "w") as outfile:

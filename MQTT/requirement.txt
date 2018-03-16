@@ -3,4 +3,3 @@ redis
 matplotlib
 numpy
 pandas
-ast

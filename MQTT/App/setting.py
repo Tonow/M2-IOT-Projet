@@ -1,8 +1,8 @@
 # Differents settings globaux
 
-# hostname = "52.166.162.126"
+hostname = "13.95.88.89"
 
-hostname = "localhost"
+# hostname = "localhost"
 
 list_sortie_eau = [
     ("SDB_lavabo_1", 0),
